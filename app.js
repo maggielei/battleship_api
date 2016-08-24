@@ -6,11 +6,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var db = mongojs('battleship', ['battleship']);
-
-// var routes = require('./routes/index');
-// var users = require('./routes/users');
-
 var app = express();
+
+// ===================== GAME FILES =====================
+var gameFile = new require('./game.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,10 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', routes);
-// app.use('/users', users);
-
-// ========================================================
+// ===================== API =====================
 app.get('/', function(req, res){
 	res.render('index', { title: 'Battleship' });
 	// Remove all entries from the database
@@ -66,6 +62,7 @@ app.post('/:name/game', function(req, res){
    		console.log(e);
 	}
 	console.log(coordsObj);
+	gameFile.createAndPopulate(coords);
 	res.render('game.jade');
 });
 
