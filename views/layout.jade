@@ -1,0 +1,13 @@
+doctype html
+html(ng-app='battleshipApp')
+	head
+		title=title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
+	body
+		block content
+		script(src='/javascripts/lib/angular.js')
+		script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js')
+		script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js')
+		script(src='/javascripts/app.js')
+		script(src='/javascripts/game.js')

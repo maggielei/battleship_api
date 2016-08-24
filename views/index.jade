@@ -1,0 +1,10 @@
+extends layout
+
+block content
+	div(class='container', ng-controller='battleshipCtrl')
+		h1 Welcome to #{title}
+		h3 Enter your name to get started!
+		form(class='form-inline')
+			div(class='form-group')
+				input(class='form-control', ng-model='name')
+			button(class='btn btn-primary', ng-click='setupBoard()') Start

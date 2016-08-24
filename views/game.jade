@@ -1,0 +1,11 @@
+extends layout
+
+block content
+	div(class='container', ng-controller='battleshipCtrl')
+		h1 Prepare to attack!
+		p Now that your ships have been placed, enter the coordinates to fire at the enemy!
+		label X-Coordinate
+			input(class='form-control', id='fireX')
+		label Y-Coordinate
+			input(class='form-control', id='fireY')
+		button(class='btn btn-primary', ng-click='fire()') Fire!
