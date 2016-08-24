@@ -13,10 +13,24 @@ function createAndPopulate(playerCoords) {
 			}
 		}
 	}
+	// PLACE PLAYER SHIPS
 	for(var z = 0; z < playerCoords.length; z++){
 		var xVal = playerCoords[z].x;
 		var yVal = playerCoords[z].y;
 		board[xVal][yVal].hasPlayerShip = true;
+	}
+	// PLACE COMPUTER SHIPS
+	var shipsPlaced = 0;
+	while(shipsPlaced != 10){
+		var cpuX = Math.floor((Math.random() * 5));
+		var cpuY = Math.floor((Math.random() * 5));
+		if(board[cpuX][cpuY].hasPlayerShip == false && board[cpuX][cpuY].hasComputerShip == false){
+			board[cpuX][cpuY].hasComputerShip = true;
+			shipsPlaced++;
+		} else{
+			cpuX = Math.floor((Math.random() * 5));
+			cpuY = Math.floor((Math.random() * 5));
+		}
 	}
 }
 
