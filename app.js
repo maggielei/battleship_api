@@ -63,7 +63,46 @@ app.post('/:name/game', function(req, res){
 	}
 	console.log(coordsObj);
 	gameFile.createAndPopulate(coords);
-	res.render('game.jade');
+	res.send(coords);
+});
+
+app.post('/:name/game/fire', function(req, res){
+	var fireCoords = req.body;
+	var message = "";
+	var responseObj = {};
+	var playerWon = false;
+	var cpuShotResult = {};
+
+	if(gameFile.isHit(fireCoords)){
+		responseObj.message = "You hit the enemy!";
+	} else if (!gameFile.isHit(fireCoords)){
+		responseObj.message = "You missed. Try again!";
+	}
+
+	cpuShotResult = gameFile.cpuShoot();
+	responseObj.cpuX = cpuShotResult.cpuX;
+	responseObj.cpuY = cpuShotResult.cpuY;
+	responseObj.playerShipsLeft = cpuShotResult.playerShipsLeft;
+
+	if(gameFile.playerWon()){
+		responseObj.playerWon = true;
+		responseObj.cpuWon = false;
+		res.send(responseObj);
+	} else if (gameFile.cpuWon()){
+		responseObj.playerWon = false;
+		responseObj.cpuWon = true;
+		res.send(responseObj);
+	} else {
+		res.send(responseObj);
+	}
+});
+
+app.get('/:name/game/win', function(req, res){
+	res.render('win.jade');
+});
+
+app.get('/:name/game/lose', function(req, res){
+	res.render('lose.jade');
 });
 
 app.listen(4000);

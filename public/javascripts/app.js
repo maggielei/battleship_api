@@ -10,6 +10,12 @@ battleshipApp.config(['$routeProvider', '$locationProvider', function($routeProv
     .when('/:name/game', {
         templateUrl : 'game'
     })
+    .when('/:name/game/fire', {
+        templateUrl : 'fire'
+    })
+    .when('/gameover', {
+        templateUrl : 'gameover'
+    })
     .otherwise({
     	redirectTo: '/'
     });
@@ -41,8 +47,21 @@ battleshipApp.controller('battleshipCtrl', ['$scope', '$http', '$window', '$rout
     }
     $scope.fire = function(){
         var fireCoords = { "fireX" : $("#fireX").val(), "fireY" : $("#fireY").val()}
-        console.log(fireCoords);
+        $http.post('/:name/game/fire', fireCoords).success(function(res){
+            if(res.playerWon == true){
+                window.location = window.location.href + '/win';
+            } else if(res.cpuWon == true){
+                window.location = window.location.href + '/lose';
+            }
+            $("#yourResult").html(res.message);
+            $("#cpuResult").html("The enemy shot at: " + res.cpuX + ", " + res.cpuY + ". You have " + res.playerShipsLeft + " ships left.");
+        });
     };
+
+    $scope.quit = function(){
+        window.location = '/';
+    };
+
 }]);
 
 

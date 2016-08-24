@@ -1,9 +1,10 @@
 // Handle game interactions
 var MAX_BOARD_SIZE = 5;
-
+var MAX_CPU_SHIPS = 10;
+var MAX_PLAYER_SHIPS = 10;
+var board = [];
 function createAndPopulate(playerCoords) {
 	// POPULATE 5x5 BOARD
-	var board = [];
 	for (var i = 0; i < MAX_BOARD_SIZE; i++) {
 		board[i] = [];
 		for (var j = 0; j < MAX_BOARD_SIZE; j++) {
@@ -21,17 +22,65 @@ function createAndPopulate(playerCoords) {
 	}
 	// PLACE COMPUTER SHIPS
 	var shipsPlaced = 0;
-	while(shipsPlaced != 10){
-		var cpuX = Math.floor((Math.random() * 5));
-		var cpuY = Math.floor((Math.random() * 5));
+	while(shipsPlaced != MAX_CPU_SHIPS){
+		var cpuX = Math.floor((Math.random() * MAX_BOARD_SIZE));
+		var cpuY = Math.floor((Math.random() * MAX_BOARD_SIZE));
 		if(board[cpuX][cpuY].hasPlayerShip == false && board[cpuX][cpuY].hasComputerShip == false){
 			board[cpuX][cpuY].hasComputerShip = true;
+			console.log("Computer ship at: [" + cpuX + ", " + cpuY + "]");
 			shipsPlaced++;
-		} else{
-			cpuX = Math.floor((Math.random() * 5));
-			cpuY = Math.floor((Math.random() * 5));
+		} else {
+			cpuX = Math.floor((Math.random() * MAX_BOARD_SIZE));
+			cpuY = Math.floor((Math.random() * MAX_BOARD_SIZE));
 		}
 	}
 }
 
+function isHit(fireCoords){
+	if(board[fireCoords.fireX][fireCoords.fireY].hasComputerShip){
+		MAX_CPU_SHIPS--;
+		board[fireCoords.fireX][fireCoords.fireY].hasComputerShip == false;
+		return true;
+	} else {
+		return false;
+	}
+}
+// Returns coordinates
+function cpuShoot(){
+	var cpuX = Math.floor((Math.random() * MAX_BOARD_SIZE));
+	var cpuY = Math.floor((Math.random() * MAX_BOARD_SIZE));
+	var cpuFired = false;
+	while(cpuFired == false){
+		if(board[cpuX][cpuY].hasPlayerShip){
+			MAX_PLAYER_SHIPS--;
+			board[cpuX][cpuY].hasPlayerShip == false;
+			cpuFired = true;
+		} else if(!board[cpuX][cpuY].hasComputerShip){
+			cpuFired = true;
+		} else {
+			cpuX = Math.floor((Math.random() * MAX_BOARD_SIZE));
+			cpuY = Math.floor((Math.random() * MAX_BOARD_SIZE));
+		}
+	}
+	var cpuCoord = {"cpuX" : cpuX, "cpuY" : cpuY, "playerShipsLeft" : MAX_PLAYER_SHIPS};
+	return cpuCoord;
+}
+function playerWon(){
+	if(MAX_CPU_SHIPS == 0){
+		return true;
+	}
+	return false;
+}
+function cpuWon(){
+	if(MAX_PLAYER_SHIPS == 0){
+		return true;
+	}
+	return false;
+}
+
+
 module.exports.createAndPopulate = createAndPopulate;
+module.exports.isHit = isHit;
+module.exports.cpuShoot = cpuShoot;
+module.exports.playerWon = playerWon;
+module.exports.cpuWon = cpuWon;
