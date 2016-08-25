@@ -4,11 +4,15 @@ block content
 	div(class='container', ng-controller='battleshipCtrl')
 		h1 Attack!
 		p Enter the coordinates to fire at the enemy!
-		label X-Coordinate
-			input(class='form-control', id='fireX')
-		label Y-Coordinate
-			input(class='form-control', id='fireY')
-		button(class='btn btn-primary', ng-click='fire()') Fire!
+		form(class='form-inline', ng-submit='fire()')
+				label X-Coordinate: 
+					input(type='number', min="0", max="4", class='form-control', id='fireX' required)
+				&nbsp;&nbsp;&nbsp;
+				label Y-Coordinate: 
+					input(type='number', min="0", max="4", class='form-control', id='fireY' required)
+				//- button(class='btn btn-primary', ng-click='fire()') Fire!
+				&nbsp;&nbsp;
+				input(type='submit', class="btn btn-info", value='Fire!')
 
 		div(id='yourResult')
 		div(id='cpuResult')

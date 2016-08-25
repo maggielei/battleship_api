@@ -17,9 +17,9 @@ block content
 							td 
 								h4 {{n}}
 							td 
-								input(class='form-control', ng-attr-id="{{ 'ship-' + $index + 'x' }}" required)
+								input(type='number', min="0", max="4", class='form-control', ng-attr-id="{{ 'ship-' + $index + 'x' }}" required)
 							td 
-								input(class='form-control', ng-attr-id="{{ 'ship-' + $index + 'y' }}" required)
+								input(type='number', min="0", max="4", class='form-control', ng-attr-id="{{ 'ship-' + $index + 'y' }}" required)
 
 				h4 Place your ships and start the game!
 				input(type='submit', class="btn btn-info", value='Place Ships')
