@@ -5,8 +5,8 @@ block content
 		h1 Set up your board, #{name}
 		h4 Please enter the coordinates for your 10 ships. 
 		p The board will be 5x5 board. Avoid duplicate entries. Choose coordinates from 0-4.
-		form(class='form-inline')
-			div(class='form-group')
+		div(class='form-group')
+			form(class='form-inline', ng-submit='placeShips()')
 				table(class='table')
 					thead
 						th Ship #
@@ -17,9 +17,9 @@ block content
 							td 
 								h4 {{n}}
 							td 
-								input(class='form-control', ng-attr-id="{{ 'ship-' + $index + 'x' }}")
+								input(class='form-control', ng-attr-id="{{ 'ship-' + $index + 'x' }}" required)
 							td 
-								input(class='form-control', ng-attr-id="{{ 'ship-' + $index + 'y' }}")
+								input(class='form-control', ng-attr-id="{{ 'ship-' + $index + 'y' }}" required)
 
-		h4 Place your ships and start the game!
-		button(class='btn btn-primary', ng-click='placeShips()') Place Ships
+				h4 Place your ships and start the game!
+				input(type='submit', class="btn btn-info", value='Place Ships')
