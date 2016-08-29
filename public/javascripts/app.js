@@ -29,6 +29,7 @@ battleshipApp.controller('battleshipCtrl', ['$scope', '$http', '$window', '$rout
         });
     };
     $scope.placeShips = function(){
+        // Remove jQuery
         var coords = [
             { "x" : $("#ship-0x").val(), "y" : $("#ship-0y").val()},
             { "x" : $("#ship-1x").val(), "y" : $("#ship-1y").val()},
@@ -42,10 +43,12 @@ battleshipApp.controller('battleshipCtrl', ['$scope', '$http', '$window', '$rout
             { "x" : $("#ship-9x").val(), "y" : $("#ship-9y").val()}
         ];
         $http.post('/:name/game', coords).success(function(res){
+            // Use $location
             window.location = window.location.href + '/game';
         });
     }
     $scope.fire = function(){
+        // Remove jQuery
         var fireCoords = { "fireX" : $("#fireX").val(), "fireY" : $("#fireY").val()}
         $http.post('/:name/game/fire', fireCoords).success(function(res){
             if(res.playerWon == true){
@@ -53,7 +56,7 @@ battleshipApp.controller('battleshipCtrl', ['$scope', '$http', '$window', '$rout
             } else if(res.cpuWon == true){
                 window.location = window.location.href + '/lose';
             }
-            $("#yourResult").html(res.message);
+            $("#yourResult").html(res.message + " The CPU has " + res.cpuShipsLeft + " ships left.");
             $("#cpuResult").html("The enemy shot at: " + res.cpuX + ", " + res.cpuY + ". You have " + res.playerShipsLeft + " ships left.");
         });
     };

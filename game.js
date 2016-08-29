@@ -10,7 +10,8 @@ function createAndPopulate(playerCoords) {
 		for (var j = 0; j < MAX_BOARD_SIZE; j++) {
 			board[i][j] = {
 				hasPlayerShip : false,
-				hasComputerShip : false
+				hasComputerShip : false,
+				hasDestroyedShip : false
 			}
 		}
 	}
@@ -37,9 +38,12 @@ function createAndPopulate(playerCoords) {
 }
 
 function isHit(fireCoords){
-	if(board[fireCoords.fireX][fireCoords.fireY].hasComputerShip){
+	// Player hit
+	if(board[fireCoords.fireX][fireCoords.fireY].hasComputerShip 
+		&& !board[fireCoords.fireX][fireCoords.fireY].hasDestroyedShip 
+		&& !board[fireCoords.fireX][fireCoords.fireY].hasPlayerShip){
 		MAX_CPU_SHIPS--;
-		board[fireCoords.fireX][fireCoords.fireY].hasComputerShip == false;
+		board[fireCoords.fireX][fireCoords.fireY].hasDestroyedShip = true;
 		return true;
 	} else {
 		return false;
@@ -51,18 +55,22 @@ function cpuShoot(){
 	var cpuY = Math.floor((Math.random() * MAX_BOARD_SIZE));
 	var cpuFired = false;
 	while(cpuFired == false){
-		if(board[cpuX][cpuY].hasPlayerShip){
+		// CPU hit
+		if(board[cpuX][cpuY].hasPlayerShip 
+			&& !board[cpuX][cpuY].hasDestroyedShip){
 			MAX_PLAYER_SHIPS--;
-			board[cpuX][cpuY].hasPlayerShip == false;
+			board[cpuX][cpuY].hasDestroyedShip = true;
 			cpuFired = true;
-		} else if(!board[cpuX][cpuY].hasComputerShip){
+		} else if(!board[cpuX][cpuY].hasPlayerShip 
+					&& !board[cpuX][cpuY].hasDestroyedShip){
+			// CPU miss
 			cpuFired = true;
 		} else {
 			cpuX = Math.floor((Math.random() * MAX_BOARD_SIZE));
 			cpuY = Math.floor((Math.random() * MAX_BOARD_SIZE));
 		}
 	}
-	var cpuCoord = {"cpuX" : cpuX, "cpuY" : cpuY, "playerShipsLeft" : MAX_PLAYER_SHIPS};
+	var cpuCoord = {"cpuX" : cpuX, "cpuY" : cpuY, "playerShipsLeft" : MAX_PLAYER_SHIPS, "cpuShipsLeft" : MAX_CPU_SHIPS};
 	return cpuCoord;
 }
 function playerWon(){

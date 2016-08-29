@@ -35,9 +35,9 @@ app.post('/', function(req, res){
 });
 
 // Getting the set up page
-app.get('/:name', function(req, res) {
+app.get('/:name', function(req, res){
 	var name = req.params.name;
-	var nameObj = { 'name' : name };
+	var nameObj = { 'name' : name }
 	res.render('setup.jade', { name: name });
 	db.battleship.insert(nameObj);
 	db.battleship.find(function(err, docs){
@@ -58,6 +58,7 @@ app.post('/:name/game', function(req, res){
 	try{
 		// Add coordinates to the first player
 		db.battleship.update({ }, { $push : { shipPlacements : { $each: coords }}});
+		// Return status rather than just console.log
 	} catch (e) {
    		console.log(e);
 	}
@@ -73,6 +74,7 @@ app.post('/:name/game/fire', function(req, res){
 	var playerWon = false;
 	var cpuShotResult = {};
 
+	// isHit should return a String message instead of boolean
 	if(gameFile.isHit(fireCoords)){
 		responseObj.message = "You hit the enemy!";
 	} else if (!gameFile.isHit(fireCoords)){
@@ -83,6 +85,7 @@ app.post('/:name/game/fire', function(req, res){
 	responseObj.cpuX = cpuShotResult.cpuX;
 	responseObj.cpuY = cpuShotResult.cpuY;
 	responseObj.playerShipsLeft = cpuShotResult.playerShipsLeft;
+	responseObj.cpuShipsLeft = cpuShotResult.cpuShipsLeft;
 
 	if(gameFile.playerWon()){
 		responseObj.playerWon = true;
